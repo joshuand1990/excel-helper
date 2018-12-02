@@ -87,7 +87,21 @@ abstract class ExcelSpreadSheetReader
      */
     protected function loadWorkBook($filePath)
     {
-        $this->workbook = $this->phpSpreadSheet->load($filePath);
+        $this->workbook = $this->spreadsheet->load($filePath);
+    }
+
+    protected function spreadsheet($factory = null)
+    {
+        if(is_null($factory) && is_null($this->spreadsheet)) {
+            trigger_error(" There is no spreadsheet assigned");
+        }
+
+        if(is_null($factory)){
+            return $this->spreadsheet;
+        }
+
+        $this->spreadsheet = $factory;
+
     }
 
 }
