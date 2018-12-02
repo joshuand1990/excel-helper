@@ -2,7 +2,8 @@
     "name": "joshuand1990/excel-helper",
     "description": "PhpExcelWrapper and smaller helpers",
     "require": {
-        "phpoffice/phpspreadsheet": "dev-master"
+        "phpoffice/phpspreadsheet": "dev-master",
+        "nesbot/carbon": "dev-master"
     },
     "authors": [
         {
@@ -10,5 +11,10 @@
             "email": "joshuand1990@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Joshua\\Helpers\\": "src/"
+        }
+    },
     "minimum-stability": "dev"
 }
