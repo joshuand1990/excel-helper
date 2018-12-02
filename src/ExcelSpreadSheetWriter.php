@@ -14,7 +14,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
-abstract class ExcelSpreadSheet
+abstract class ExcelSpreadSheetWriter
 {
 
     /**
