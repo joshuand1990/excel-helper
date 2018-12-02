@@ -1,0 +1,14 @@
+{
+    "name": "joshuand1990/excel-helper",
+    "description": "PhpExcelWrapper and smaller helpers",
+    "require": {
+        "phpoffice/phpspreadsheet": "dev-master"
+    },
+    "authors": [
+        {
+            "name": "Joshua DSouzaaza",
+            "email": "joshuand1990@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
