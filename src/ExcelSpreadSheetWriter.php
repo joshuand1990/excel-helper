@@ -14,7 +14,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
-abstract class ExcelSpreadSheetWriter
+abstract class ExcelSpreadSheetWriter extends BaseExcelSpreadSheet
 {
 
     /**
@@ -25,10 +25,6 @@ abstract class ExcelSpreadSheetWriter
      * @var
      */
     protected $writer;
-    /**
-     * @var
-     */
-    protected $filename;
 
     /**
      * @param $sheet
@@ -79,17 +75,6 @@ abstract class ExcelSpreadSheetWriter
 
         return $this->writer;
     }
-
-    /**
-     * @return mixed
-     */
-    protected abstract function path();
-
-    /**
-     * @param bool $withPath
-     * @return mixed
-     */
-    protected abstract function filename($withPath = true);
 
     /**
      * @param int $mode

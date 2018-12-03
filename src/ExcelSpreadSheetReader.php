@@ -15,7 +15,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
  * Class ExcelSpreadSheetReader
  * @package Joshua\Helpers
  */
-abstract class ExcelSpreadSheetReader
+abstract class ExcelSpreadSheetReader extends BaseExcelSpreadSheet
 {
     /**
      * @var null
