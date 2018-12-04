@@ -15,6 +15,10 @@ abstract class BaseExcelSpreadSheet
      * @var
      */
     protected $filename;
+    /**
+     * @var null
+     */
+    protected $spreadsheet = null;
 
     /**
      * @return mixed

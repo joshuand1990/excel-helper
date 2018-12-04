@@ -10,6 +10,7 @@ namespace Joshua\Helpers;
 
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Workbook;
 
 /**
  * Class ExcelSpreadSheetReader
@@ -18,30 +19,13 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 abstract class ExcelSpreadSheetReader extends BaseExcelSpreadSheet
 {
     /**
-     * @var null
-     */
-    protected $spreadsheet = null;
-    /**
-     * @var null
+     * @var Workbook
      */
     protected $workbook = null;
     /**
      * @var null
      */
     protected $sheet = null;
-
-    /**
-     * ExcelSpreadSheetReader constructor.
-     * @param $filePath
-     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
-     */
-    public function __construct($filePath)
-    {
-        $this->loadSpreadSheet($filePath);
-
-        $this->setCurrentSheet(0);
-
-    }
 
 
     /**
@@ -73,6 +57,7 @@ abstract class ExcelSpreadSheetReader extends BaseExcelSpreadSheet
 
     /**
      * @param $filePath
+     * @return ExcelSpreadSheetReader
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      */
     protected function loadSpreadSheet($filePath)
@@ -84,12 +69,18 @@ abstract class ExcelSpreadSheetReader extends BaseExcelSpreadSheet
 
     /**
      * @param $filePath
+     * @return ExcelSpreadSheetReader
      */
     protected function loadWorkBook($filePath)
     {
         $this->workbook = $this->spreadsheet->load($filePath);
+        return $this;
     }
 
+    /**
+     * @param null $factory
+     * @return $this|null
+     */
     protected function spreadsheet($factory = null)
     {
         if(is_null($factory) && is_null($this->spreadsheet)) {
@@ -101,6 +92,8 @@ abstract class ExcelSpreadSheetReader extends BaseExcelSpreadSheet
         }
 
         $this->spreadsheet = $factory;
+
+        return $this;
 
     }
 

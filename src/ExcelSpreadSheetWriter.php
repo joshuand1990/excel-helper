@@ -19,10 +19,6 @@ abstract class ExcelSpreadSheetWriter extends BaseExcelSpreadSheet
 {
 
     /**
-     * @var null
-     */
-    protected $spreadsheet = null;
-    /**
      * @var
      */
     protected $writer;
