@@ -65,6 +65,7 @@ abstract class ExcelSpreadSheetReader extends BaseExcelSpreadSheet
         $this->spreadsheet = IOFactory::createReaderForFile($filePath);
         $this->spreadsheet->setReadDataOnly(true);
         $this->loadWorkBook($filePath);
+        $this->setCurrentSheet(0);
 
         return $this;
     }
