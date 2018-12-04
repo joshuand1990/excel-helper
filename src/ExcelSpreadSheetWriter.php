@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 abstract class ExcelSpreadSheetWriter extends BaseExcelSpreadSheet
 {
@@ -101,7 +102,12 @@ abstract class ExcelSpreadSheetWriter extends BaseExcelSpreadSheet
      */
     protected function defaultCellFormat($overwrite = [])
     {
-        return array_merge($overwrite, ['numberformat' => ['code' => '@'], 'alignment' => ['horizontal' => Alignment::HORIZONTAL_LEFT, 'indent' => 1], 'fill' => ['type' => Fill::FILL_SOLID, 'color' => ['rgb' => 'D0D0D0']]]);
+        return array_merge($overwrite,
+            [
+                'numberformat' => ['code' => '@'],
+                'alignment' => ['horizontal' => Alignment::HORIZONTAL_LEFT, 'indent' => 1],
+                'fill' => ['type' => Fill::FILL_SOLID, 'color' => ['rgb' => 'D0D0D0']]
+            ]);
     }
 
     /**
