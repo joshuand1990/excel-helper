@@ -49,6 +49,33 @@ abstract class ExcelSpreadSheetWriter extends BaseExcelSpreadSheet
     }
 
     /**
+     * @param $sheet
+     * @param $column
+     * @param $row
+     * @param $value
+     * @param array $styleOverWrite
+     * @return \PhpOffice\PhpSpreadsheet\Style\Style
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     */
+    protected function cellValueRowColumnWithDefaultStyle($sheet, $column, $row, $value, $styleOverWrite = [])
+    {
+        return $this->cellValueRowColumn($sheet, $column, $row, $value)
+            ->getStyleByColumnAndRow($column, $row)->applyFromArray($this->defaultCellFormat($styleOverWrite));
+    }
+
+    /**
+     * @param $sheet
+     * @param $column
+     * @param $row
+     * @param $value
+     * @return \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     */
+    protected function cellValueRowColumn($sheet, $column, $row, $value)
+    {
+        return $this->spreadsheet()->setActiveSheetIndex($sheet)->setCellValueByColumnAndRow($column, $row, $value);
+    }
+    /**
      * @return Spreadsheet
      */
     protected function spreadsheet()
