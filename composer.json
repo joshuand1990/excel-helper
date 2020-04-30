@@ -3,7 +3,8 @@
     "description": "PhpExcelWrapper and smaller helpers",
     "require": {
         "phpoffice/phpspreadsheet": "*",
-        "nesbot/carbon": "*"
+        "nesbot/carbon": "*",
+        "symfony/http-foundation": "*"
     },
     "authors": [
         {

@@ -75,6 +75,7 @@ abstract class ExcelSpreadSheetWriter extends BaseExcelSpreadSheet
     {
         return $this->spreadsheet()->setActiveSheetIndex($sheet)->setCellValueByColumnAndRow($column, $row, $value);
     }
+
     /**
      * @return Spreadsheet
      */
@@ -125,12 +126,7 @@ abstract class ExcelSpreadSheetWriter extends BaseExcelSpreadSheet
      */
     protected function defaultCellFormat($overwrite = [])
     {
-        return array_merge($overwrite,
-            [
-                'numberformat' => ['code' => '@'],
-                'alignment' => ['horizontal' => Alignment::HORIZONTAL_LEFT, 'indent' => 1],
-                'fill' => ['type' => Fill::FILL_SOLID, 'color' => ['rgb' => 'D0D0D0']]
-            ]);
+        return array_merge($overwrite, [ 'numberformat' => ['code' => '@'], 'alignment' => ['horizontal' => Alignment::HORIZONTAL_LEFT, 'indent' => 1], 'fill' => ['type' => Fill::FILL_SOLID, 'color' => ['rgb' => 'D0D0D0']] ]);
     }
 
     /**
@@ -143,14 +139,14 @@ abstract class ExcelSpreadSheetWriter extends BaseExcelSpreadSheet
     {
         // Redirect output to a client’s web browser (Xlsx)
         header('Content-Type:' . $contentType);
-        header('Content-Disposition: attachment;filename="'. $this->filename($withPath) . '"');
+        header(sprintf('Content-Disposition: attachment;filename="%s"', $this->filename($withPath)));
         header('Cache-Control: max-age=0');
         // If you're serving to IE 9, then the following may be needed
         header('Cache-Control: max-age=1');
 
         // If you're serving to IE over SSL, then the following may be needed
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+        header(sprintf('Last-Modified: %s GMT', gmdate('D, d M Y H:i:s'))); // always modified
         header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
         header('Pragma: public'); // HTTP/1.0
 
@@ -159,5 +155,76 @@ abstract class ExcelSpreadSheetWriter extends BaseExcelSpreadSheet
         $this->writer()->save('php://output');
         exit;         // This is needed to remove junk characters
 
+    }
+        /**
+     * @return mixed
+     */
+    public function output()
+    {
+        $this->writer();
+        ob_end_clean();
+        return $this->writer()->save('php://output');
+    }
+
+    /**
+     * @param null $filename
+     * @return StreamedResponse
+     */
+    public function response( $filename = null)
+    {
+        $filename = is_null($filename) ? $this->filename(false) : $filename;
+        $stream = new StreamedResponse(function () {
+            $this->output();
+        });
+        $stream->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        $stream->headers->set('Content-Disposition', sprintf('attachment;filename="%s"', $filename));
+        $stream->headers->set('Expires', ' Mon, 26 Jul 1997 05:00:00 GMT');
+        $stream->headers->set('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT');
+        $stream->headers->set('Cache-Control', 'cache, must-revalidate');
+        $stream->headers->set('Pragma', 'public');;
+
+        return $stream;
+    }
+
+    /**
+     * @param null $filename
+     * @return StreamedResponse
+     */
+    public function helperHttpResponse( $filename = null)
+    {
+        return $this->response($filename);
+    }
+
+    /**
+     * @param null $filename
+     * @return $this
+     */
+    public function helperStoreFileLocal( $filename = null)
+    {
+        if(is_null($filename )) {
+            $filename = $this->filename(true);
+        }
+        $this->writer()->save($filename);
+        return $this;
+    }
+
+    /**
+     * @param bool $withPath
+     * @return mixed
+     */
+    public function helperGetFilename( $withPath = true)
+    {
+        return $this->filename($withPath);
+    }
+
+    /**
+     * @param $sheet
+     * @param $title
+     * @return $this
+     */
+    public function helperSetSheetTitle( $sheet, $title)
+    {
+        $this->spreadsheet()->setActiveSheetIndex($sheet)->setTitle($title);
+        return $this;
     }
 }
